@@ -1,5 +1,5 @@
 #include <Arduino.h>
-
+#include <CytronMD.h>
 #include <PS4Controller.h>
 
 /*Four Wheel Drive Using Cytron MDD10A motor driver
@@ -83,12 +83,16 @@ int dead_zone(int val, int limit = const_limit) {
   }
 }
 
+CytronMD right_motor,left_motor;
 
 
 void setup() {
   // put your setup code here, to run once:
   PS4.begin("9C:B6:D0:90:37:C2");
   Serial.begin(115200);
+
+  left_motor.initialize(dirA,pwmA);
+  right_motor.initialize(dirB,pwmB);
 
   pinMode(pwmB, OUTPUT);
   pinMode(pwmA, OUTPUT);
@@ -109,8 +113,15 @@ void loop() {
 
     //Serial.printf("%d, %d\n", L_Y, R_Y);
 
-    left_track(L_Y);
-    right_track(R_Y);
+    int left = L_Y/127;
+    int right = R_Y/127;
+
+    
+    left_motor.driveRPM();
+    right_motor.driveRPM();
+
+    
+    
   }
 
   else{

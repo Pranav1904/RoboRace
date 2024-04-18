@@ -11,4 +11,5 @@ class CytronMD {
 
     void initialize(int dirPin, int pwmPin);
     void setPower(float val);
+    void driveRPM();
 };
